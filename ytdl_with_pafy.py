@@ -19,9 +19,9 @@ elif option == 1:
 	video_best_mp4 = verify.getbest(preftype = "mp4")
 	video_best_mp4.download()
 elif option == 2:
-	best_vid_audio_mp3 = verify.getbestaudio(preftype = "any",ftypestrict=False)
+	best_vid_audio = verify.getbestaudio(preftype = "any",ftypestrict=False)
 	# pafy audio options are (ogg, m4a, or webm),best quality will usually be webm audio
 	# ftypestrict=False if preftype isn't the highest quality will choose another with a higher resolution
-	best_vid_audio_mp3.download()
+	best_vid_audio.download()
 else:
 	print("Sorry invalid input")
