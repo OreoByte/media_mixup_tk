@@ -1,8 +1,10 @@
 #!/usr/bin/python3
 import sys # user options/args
+#import time # see how  long it took for the program run
 
 import matplotlib.pyplot as plt
-import scipy.io.wavfile # read and spectrograph .wav files
+#import scipy.io.wavfile # read and spectrograph .wav files
+from scipy.io import wavfile
 
 from pydub import AudioSegment, effects
 # convert audio formats (.mp3 and .wav) and normalize audio (have it all sound the same)
@@ -16,7 +18,8 @@ def player():
 	play(lower_volume)
 
 def spectrograph(file_string):
-	sample_freq, signal_data = scipy.io.wavfile.read(file_string)
+#	sample_freq, signal_data = scipy.io.wavfile.read(file_string)
+	sample_freq, signal_data = wavfile.read(file_string)
 
 	plt.figure(figsize=(16,7))
 	plt.subplot(211)
@@ -78,4 +81,7 @@ def options(args):
 		print("Ex: ./audio_tool.py -cb filename.wav (Input: new-filename.mp3)")
 	else:
 		print('Error Option Doesn\'t Exist')
+#start_time = time.time()
 options(args)
+#print("\n")
+#print("This program took", time.time() - start_time, "to run")
