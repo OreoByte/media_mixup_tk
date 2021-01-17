@@ -21,11 +21,13 @@ option.add_argument("-r","--record", required=False,help="Record Custom audio to
 option.add_argument("-f","--folder", required=False,help="Use Selected Music Folder.  -f /path/to/music/folder")
 option.add_argument("-s","--songs", required=False,help="manually select songs to play.  -s song1 song2 song3",nargs='+')
 option.add_argument("-l","--loop", required=False,help="Enter number of times the selected music/audio will be replayed.",type=int)
+option.add_argument('-v',"--volume", required=False,help="Change volume by dB (posittive number 'raise volume by X dB' | negative number 'lower volume by X db'). Default -15 dB.",type=float,default=-15)
 
 option.add_argument("-st","--start_time", required=False,help="What Time in Seconds to start the Audio/Music. Can be use alone or with -st/--end_time. -st 10 OR --start_time 10",type=int)
-
 option.add_argument("-et","--end_time", required=False,help="Timestamp of when the song or audio will end. Can be used with -et/--end_time. -et 40 OR --end_time",type=int)
 args = option.parse_args()
+
+volume=args.volume
 
 def player():
     if args.loop:
@@ -35,7 +37,7 @@ def player():
             if args.songs:
                 for songs in args.songs:
                     audio = AudioSegment.from_file(songs)
-                    lower_volume = audio - 15
+                    lower_volume = audio + volume
 
                     if args.start_time and args.end_time:
                         start = 1000 * args.start_time
@@ -57,7 +59,7 @@ def player():
                 print(files)
                 for songs in files:
                     audio = AudioSegment.from_file(songs)
-                    lower_volume = audio - 15
+                    lower_volume = audio + volume
 
                     if args.start_time and args.end_time:
                         start = 1000 * args.start_time
@@ -79,7 +81,7 @@ def player():
         if args.songs:
             for songs in args.songs:
                 audio = AudioSegment.from_file(songs)
-                lower_volume = audio - 15
+                lower_volume = audio + volume
 
                 if args.start_time and args.end_time:
                     start = 1000 * args.start_time
@@ -103,7 +105,7 @@ def player():
             print(files)
             for songs in files:
                 audio = AudioSegment.from_file(songs)
-                lower_volume = audio - 15
+                lower_volume = audio + volume
 
                 if args.start_time and args.end_time:
                     start = 1000 * args.start_time
