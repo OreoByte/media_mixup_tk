@@ -46,7 +46,7 @@ def player():
                         play(split)
                     elif args.start_time:
                         start = 1000 * args.start_time
-                        split = lower_volume[:start]
+                        split = lower_volume[start:]
                         play(split)
                     elif args.end_time:
                         end = 1000 * args.end_time * -1
@@ -68,7 +68,7 @@ def player():
                         play(split)
                     elif args.start_time:
                         start = 1000 * args.start_time
-                        split = lower_volume[:start]
+                        split = lower_volume[start:]
                         play(split)
                     elif args.end_time:
                         end = 1000 * args.end_time * -1
@@ -91,7 +91,7 @@ def player():
                     play(split)
                 elif args.start_time:
                     start = 1000 * args.start_time
-                    split = lower_volume[:start]
+                    split = lower_volume[start:]
                     play(split)
                 elif args.end_time:
                     end = 1000 * args.end_time * -1
@@ -114,7 +114,7 @@ def player():
                     play(split)
                 elif args.start_time:
                     start = 1000 * args.start_time
-                    split = lower_volume[:start]
+                    split = lower_volume[start:]
                     play(split)
                 elif args.end_time:
                     end = 1000 * args.end_time * -1
