@@ -37,17 +37,17 @@ def vert():
 
             if args.start_time and args.end_time:
                 start = 1000 * args.start_time
-                end =1000 * args.end_time
+                end = 1000 * args.end_time
                 split = lower_volume[start:end]
             elif args.start_time:
                 start = 1000 * args.start_time
                 split = lower_volume[start:]
-                        
             elif args.end_time:
                 end = 1000 * args.end_time * -1
                 split = lower_volume[end:]
             else:
-                        print("Converter Has Finished")
+                break
+
     elif args.folder:
         files = list(pathlib.Path(args.folder).glob("*.mp3"))
         print(files)
@@ -61,51 +61,12 @@ def vert():
                 split = lower_volume[start:end]
             elif args.start_time:
                 start = 1000 * args.start_time
-                split = lower_volume[start:]
+                split = lower_volume[:start]
             elif args.end_time:
                 end = 1000 * args.end_time * -1
                 split = lower_volume[end:]
             else:
-                print("Converter Has Finished")
-#--------------------------------------------------------------------------  
-    else:
-        if args.songs:
-            for songs in args.songs:
-                audio = AudioSegment.from_file(songs)
-                lower_volume = audio + volume
-
-                if args.start_time and args.end_time:
-                    start = 1000 * args.start_time
-                    end = 1000 * args.end_time
-                    split = lower_volume[start:end]
-                elif args.start_time:
-                    start = 1000 * args.start_time
-                    split = lower_volume[start:]
-                elif args.end_time:
-                    end = 1000 * args.end_time * -1
-                    split = lower_volume[end:]
-                else:
-                    print("Converter Has Finished")
-
-        elif args.folder:
-            files = list(pathlib.Path(args.folder).glob("*.mp3"))
-            print(files)
-            for songs in files:
-                audio = AudioSegment.from_file(songs)
-                lower_volume = audio + volume
-
-                if args.start_time and args.end_time:
-                    start = 1000 * args.start_time
-                    end =1000 * args.end_time
-                    split = lower_volume[start:end]
-                elif args.start_time:
-                    start = 1000 * args.start_time
-                    split = lower_volume[:start]
-                elif args.end_time:
-                    end = 1000 * args.end_time * -1
-                    split = lower_volume[end:]
-                else:
-                    print("Converter Has Finished")
+                break
     if args.export:
         export_save(lower_volume,split)  
     elif (args.songs or args.folder) and split == '':
@@ -113,7 +74,7 @@ def vert():
     elif (args.songs or args.folder):
         player(lower_volume,split)
     else:
-        print("Post Coverter Has Failed")
+        print('Error At End of Vert Function')
 #-------------------------------------------------------
 def player(lower_volume,split):
     if args.loop:
