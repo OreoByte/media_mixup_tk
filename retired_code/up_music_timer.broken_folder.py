@@ -30,57 +30,25 @@ volume=args.volume
 split=''
 def vert():
     global lower_volume,split 
-    for songs in args.songs:
-        audio = AudioSegment.from_file(songs)
-        lower_volume = audio + volume
+    if args.songs:
+        for songs in args.songs:
+            audio = AudioSegment.from_file(songs)
+            lower_volume = audio + volume
 
-        if args.start_time and args.end_time:
-            start = 1000 * args.start_time
-            end = 1000 * args.end_time
-            split = lower_volume[start:end]
-        elif args.start_time:
-            start = 1000 * args.start_time
-            split = lower_volume[start:]
-        elif args.end_time:
-            end = 1000 * args.end_time * -1
-            split = lower_volume[end:]
-        else:
-            break
-    if args.export:
-        export_save(lower_volume,split)  
-    elif (args.songs) and split == '':
-        player(lower_volume,split)
-    elif (args.songs):
-        player(lower_volume,split)
-    else:
-        print('Error At End of Vert Function')
-#-----------------------------------------------------------------
-def play_folder():
-    if args.loop:
-        n = 0
-        while n < args.loop:
-            n += 1
-            files = list(pathlib.Path(args.folder).glob("*.mp3"))
-            for songs in files:
-                audio = AudioSegment.from_file(songs)
-                lower_volume = audio + volume
+            if args.start_time and args.end_time:
+                start = 1000 * args.start_time
+                end = 1000 * args.end_time
+                split = lower_volume[start:end]
+            elif args.start_time:
+                start = 1000 * args.start_time
+                split = lower_volume[start:]
+            elif args.end_time:
+                end = 1000 * args.end_time * -1
+                split = lower_volume[end:]
+            else:
+                break
 
-                if args.start_time and args.end_time:
-                    start = 1000 * args.start_time
-                    end =1000 * args.end_time
-                    split = lower_volume[start:end]
-                    play(split)
-                elif args.start_time:
-                    start = 1000 * args.start_time
-                    split = lower_volume[start:]
-                    play(split)
-                elif args.end_time:
-                    end = 1000 * args.end_time * -1
-                    split = lower_volume[end:]
-                    play(split)
-                else:
-                    play(lower_volume)
-    else:
+    elif args.folder:
         files = list(pathlib.Path(args.folder).glob("*.mp3"))
         print(files)
         for songs in files:
@@ -91,18 +59,23 @@ def play_folder():
                 start = 1000 * args.start_time
                 end =1000 * args.end_time
                 split = lower_volume[start:end]
-                play(split)
             elif args.start_time:
                 start = 1000 * args.start_time
-                split = lower_volume[start:]
-                play(split)
+                split = lower_volume[:start]
             elif args.end_time:
                 end = 1000 * args.end_time * -1
                 split = lower_volume[end:]
-                play(split)
             else:
-                play(lower_volume)
-#--------------------------------------------------------------
+                break
+    if args.export:
+        export_save(lower_volume,split)  
+    elif (args.songs or args.folder) and split == '':
+        player(lower_volume,split)
+    elif (args.songs or args.folder):
+        player(lower_volume,split)
+    else:
+        print('Error At End of Vert Function')
+#-------------------------------------------------------
 def player(lower_volume,split):
     if args.loop:
         n = 0
@@ -113,7 +86,7 @@ def player(lower_volume,split):
             elif lower_volume:
                 play(lower_volume)
         else:
-            print('Loop Player Function Has Failed OR Finished')
+            print('Loop Player Function Has Failed')
     else:
         if split:
             play(split)
@@ -132,10 +105,6 @@ def export_save(lower_volume,split):
         normalize_lower.export(export_name,format="mp3")
     else:
         print("Export Function Has Failed")
-#-----------------------------------------------------------
-if args.folder:
-    play_folder()
-elif args.songs:
-    vert()
-else:
-    print("Error At Execution if/elif/else\n")
+
+vert()
+
