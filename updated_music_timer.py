@@ -21,6 +21,7 @@ option.add_argument("-f","--folder", required=False,help="Use Selected Music Fol
 option.add_argument("-s","--songs", required=False,help="manually select songs to play.  -s song1 song2 song3",nargs='+')
 option.add_argument("-l","--loop", required=False,help="Enter number of times the selected music/audio will be replayed.",type=int)
 option.add_argument('-v',"--volume", required=False,help="Change volume by dB (posittive number 'raise volume by X dB' | negative number 'lower volume by X db'). Default -15 dB.",type=float,default=-15)
+option.add_argument('-ev',"--export_volume", required=False,help="Change volume by dB of the exported song", type=float,default=15)
 
 option.add_argument("-st","--start_time", required=False,help="What Time in Seconds to start the Audio/Music. Can be use alone or with -st/--end_time. -st 10 OR --start_time 10",type=int)
 option.add_argument("-et","--end_time", required=False,help="Timestamp of when the song or audio will end. Can be used with -et/--end_time. -et 40 OR --end_time",type=int)
@@ -125,7 +126,7 @@ def player(lower_volume,split):
 def export_save(lower_volume,split):
     export_name = args.export
     if split:
-        normalize_split = split + 15
+        normalize_split = split + args.export_volume
         normalize_split.export(export_name,format="mp3")
     elif lower_volume:
         normalize_lower = lower_volume + 15
